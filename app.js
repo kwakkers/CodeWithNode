@@ -8,6 +8,7 @@ const createError = require('http-errors');
 const User = require('./models/user');
 const session = require('express-session');
 const mongoose = require('mongoose');
+const methodOverrride = require('method-override');
 
 // require routes
 const indexRouter = require('./routes/index');
@@ -44,6 +45,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverrride('_method'));
 
 // Configure session then passport
 app.use(
