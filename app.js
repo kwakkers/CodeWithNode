@@ -19,7 +19,16 @@ const reviewsRouter = require('./routes/reviews');
 const app = express();
 
 // connect to the database
-const uri = 'mongodb://localhost:27017/surf-shop';
+const uri = 'mongodb://localhost:27017/surf-shop-mapbox';
+
+// const uri =
+// 	'mongodb+srv://' +
+// 	process.env.DATABASEUSER +
+// 	':' +
+// 	process.env.DATABASEPW +
+// 	'@cluster0-qdhmd.mongodb.net/surf-shop?retryWrites=true&w=majority';
+
+//console.log(uri);
 const opts = {
 	useNewUrlParser    : true,
 	useUnifiedTopology : true,
@@ -30,6 +39,12 @@ const opts = {
 // const url =
 // 	'mongodb+srv://process.env.DATABASEUSER:process.env.DATABASEPW@cluster0-qdhmd.mongodb.net/surf-shop?retryWrites=true&w=majority';
 mongoose.connect(uri, opts);
+// .then(() => {
+// 	console.log('connected');
+// })
+// .catch((err) => {
+// 	console.log('ERROR', err.message);
+// });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'conecction Errors'));
@@ -40,6 +55,9 @@ db.once('open', () => {
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// setup public assets directory
+app.use(express.static('public'));
 
 app.use(logger('dev'));
 app.use(express.json());
