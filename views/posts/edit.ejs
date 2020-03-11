@@ -14,10 +14,11 @@
                 <label for="image<%= i %>">Delete?</label>
                 <input 
                     type="checkbox" 
-                    name="deleteImage" 
+                    name="deleteImages[]" 
                     class="imageDeleteCheckbox" 
                     id="image<%= i %>" 
-                    value="<%= image.public_id %>">
+                    value="<%= image.public_id %>"
+                >
             <% }) %>
     </div>
     </div>
@@ -46,7 +47,7 @@
             event.preventDefault();
             let removalAmt = newTotal - 4;
             console.log(removalAmt)
-            alert(`You need to remove at least ${removalAmt} image${removalAmt === 1 ? "" : "s"}`)
+            alert(`You need to remove at least ${removalAmt} (more) image${removalAmt === 1 ? "" : "s"}`)
         }
 
 
