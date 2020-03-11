@@ -3,6 +3,11 @@
 <div>Description: <%=post.description %></div>
 <div>Location: <%=post.location %></div>
 <div>
+    <% post.images.forEach(function(image){ %>
+        <img src="<%= image.url %>" alt="Surf Board Image" width="200px">
+    <% }) %>
+</div>
+<div>
     <a href="/posts/<%= post.id %>/edit">
         <button>Edit Post</button>
     </a>
