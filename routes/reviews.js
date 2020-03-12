@@ -11,12 +11,10 @@ const {
 router.post('/', asyncErrorHandler(reviewCreate));
 
 /* PUT review update  /posts/:id/reviews/review_id */
-router.put('/:id', (req, res, next) => {
-	res.send('UPDATE  /posts/:id/reviews/review_id');
-});
+router.put('/:review_id', asyncErrorHandler(reviewUpdate));
 
 /* DELETE review destroy /review/:review_id */
-router.delete('/:id', (req, res, next) => {
+router.delete('/:review_id', (req, res, next) => {
 	res.send('DELETE /posts/:id/reviews/:review_id');
 });
 

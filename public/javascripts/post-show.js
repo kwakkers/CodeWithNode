@@ -2,7 +2,7 @@
 mapboxgl.accessToken =
 	'pk.eyJ1Ijoia3dha2tlcnMiLCJhIjoiY2s3bjEyajlzMGFjdjNnbm52Nm5nNHo0MiJ9.nJTCV6nnBWP2JVSW8iTrVw';
 
-console.log(mapboxgl.accessToken);
+//console.log(mapboxgl.accessToken);
 
 var map = new mapboxgl.Map({
 	container : 'map',
@@ -15,6 +15,10 @@ var map = new mapboxgl.Map({
 var el = document.createElement('div');
 el.className = 'marker';
 
+// create a HTML element for our post location/marker
+var el = document.createElement('div');
+el.className = 'marker';
+
 // make a marker for our location and add to the map
 new mapboxgl.Marker(el)
 	.setLngLat(post.coordinates)
@@ -23,3 +27,11 @@ new mapboxgl.Marker(el)
 			.setHTML('<h3>' + post.title + '</h3><p>' + post.location + '</p>')
 	)
 	.addTo(map);
+
+// Toggle edit review form
+$('.toggle-edit-form').on('click', function () {
+	// toggle the edit button text on click
+	$(this).text() === 'Edit' ? $(this).text('Cancel') : $(this).text('Edit');
+	// toggle visibility of the edit review form
+	$(this).siblings('.edit-review-form').toggle();
+});

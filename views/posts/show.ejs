@@ -1,60 +1,51 @@
-<% layout('layouts/posts-show-layout') -%>
-
+<% layout('layouts/post-show-layout') -%>
 <h1><%= post.title %></h1>
-<div>Price: <%=post.price %></div>
-<div>Description: <%=post.description %></div>
-<div>Location: <%=post.location %></div>
+<div>Price: <%= post.price %></div>
+<div><%= post.description %></div>
+<div><%= post.location %></div>
 <div>
-    <% post.images.forEach(function(image){ %>
-        <img src="<%= image.url %>" alt="Surf Board Image" width="200px">
-    <% }) %>
+	<% post.images.forEach(function(image) { %>
+	<img src="<%= image.url %>" alt="Surf board image" width="200px">
+	<% }); %>
 </div>
 <div id='map'></div>
 <div>
-    <a href="/posts/<%= post.id %>/edit">
-        <button>Edit Post</button>
-    </a>
+	<a href="/posts/<%= post.id %>/edit">
+		<button>Edit</button>
+	</a>
 </div>
 <div>
-    <form action="/posts/<%= post.id %>?_method=DELETE" method="POST">
-        <input type="submit" value="Delete">
-    </form>
+	<form action="/posts/<%= post.id %>?_method=DELETE" method="POST">
+		<input type="submit" value="Delete">
+	</form>
 </div>
 
 
-<h2>Create Review</h2>
+<h2>Create a Review</h2>
 <form action="/posts/<%= post.id %>/reviews" method="POST">
-    <textarea name="review[body]" required></textarea>
-    <input type="number" name="review[rating]" min="1" max="5" step="1" required>
+	<textarea name="review[body]" required></textarea>
+	<input type="number" name="review[rating]" min="1" max="5" step="1" required>
 
-    <input type="submit">
+	<input type="submit">
 </form>
 
 <h3>Reviews</h3>
-<% post.reviews.forEach(function(review){ %>
-    <div>
-        Author: <%= review.author.username %><br>
-        <%= review.body %><br>
-        Rating: <%= review.rating %>
-    </div>
-    <div>
-        <button class="toggle-edit-form">Edit</button>
-        <form action="/posts/<%= post.id %>/reviews/<%= review.id %>?_mehtod=PUT" method="POST" class="edit-review-form">
-            <textarea name="review[body]" required><%= review.body %></textarea>
-            <input type="number" name="review[rating]" min="1" max="5" step="1" value="<%= review.body %>" required>
+<!-- display all reviews -->
+<% post.reviews.forEach(function(review) { %>
+	<div>
+		Author: <%= review.author.username %><br>
+		<%= review.body %><br>
+		Rating: <%= review.rating %>
+	</div>
+	<div>
+		<button class="toggle-edit-form">Edit</button>
 
-            <input type="submit" value="Update">
-        </form>
-    </div>
-    <hr>
-<% }) %>
-<script>
-    $(".toggle-edit-form").on("click", function(){
-        // toggle the edit button text on click
-        $(this).text() === "Edit" ? $(this).text("Cancel") : $(this).text("Edit");
-        // togle visibility of the edit review form
-        $(this).siblings(".edit-review-form").toggle()
-    })
-</script>
+		<form action="/posts/<%= post.id %>/reviews/<%= review.id %>?_method=PUT" method="POST" class="edit-review-form">
+			<textarea name="review[body]" required><%= review.body %></textarea>
+			<input type="number" name="review[rating]" min="1" max="5" step="1" value="<%= review.rating %>" required>
 
-
+			<input type="submit" value="Update">
+		</form>
+	</div>
+	<hr>
+<% }); %>

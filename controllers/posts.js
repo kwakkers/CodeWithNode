@@ -11,18 +11,16 @@ cloudinary.config({
 });
 
 module.exports = {
-	// Post Index
+	// Posts Index
 	async postIndex (req, res, next) {
 		let posts = await Post.find({});
 		res.render('posts/index', { posts, title: 'Posts Index' });
 	},
-
 	// Posts New
 	postNew (req, res, next) {
 		res.render('posts/new');
 	},
-
-	// Posts Create Post
+	// Posts Create
 	async postCreate (req, res, next) {
 		req.body.post.images = [];
 		for (const file of req.files) {
@@ -41,13 +39,12 @@ module.exports = {
 		req.body.post.coordinates =
 			response.body.features[0].geometry.coordinates;
 		let post = await Post.create(req.body.post);
-		req.session.success = 'Post created successfully';
+		req.session.success = 'Post created successfully!';
 		res.redirect(`/posts/${post.id}`);
 	},
-
-	// Posts SHOW
+	// Posts Show
 	async postShow (req, res, next) {
-		let post = await await Post.findById(req.params.id).populate({
+		let post = await Post.findById(req.params.id).populate({
 			path     : 'reviews',
 			options  : { sort: { _id: -1 } },
 			populate : {
@@ -57,13 +54,11 @@ module.exports = {
 		});
 		res.render('posts/show', { post });
 	},
-
-	// Edit Post
+	// Posts Edit
 	async postEdit (req, res, next) {
 		let post = await Post.findById(req.params.id);
 		res.render('posts/edit', { post });
 	},
-
 	// Posts Update
 	async postUpdate (req, res, next) {
 		// find the post by id
@@ -76,13 +71,10 @@ module.exports = {
 			for (const public_id of deleteImages) {
 				// delete images from cloudinary
 				await cloudinary.v2.uploader.destroy(public_id);
-				// delete image from Post
+				// delete image from post.images
 				for (const image of post.images) {
-					// check if public_id of posts equals the current public_id
 					if (image.public_id === public_id) {
-						// find the index from the post.images array
 						let index = post.images.indexOf(image);
-						// remove thne index from the array
 						post.images.splice(index, 1);
 					}
 				}
@@ -108,32 +100,25 @@ module.exports = {
 					limit : 1
 				})
 				.send();
-			req.body.post.coordinates = post.coordinates =
-				response.body.features[0].geometry.coordinates;
+			post.coordinates = response.body.features[0].geometry.coordinates;
 			post.location = req.body.post.location;
 		}
-
 		// update the post with any new properties
 		post.title = req.body.post.title;
-		post.price = req.body.post.price;
 		post.description = req.body.post.description;
-
+		post.price = req.body.post.price;
 		// save the updated post into the db
 		post.save();
-		// redirect to the show page
+		// redirect to show page
 		res.redirect(`/posts/${post.id}`);
 	},
-
 	// Posts Destroy
 	async postDestroy (req, res, next) {
 		let post = await Post.findById(req.params.id);
-
 		for (const image of post.images) {
 			await cloudinary.v2.uploader.destroy(image.public_id);
 		}
-
 		await post.remove();
-
 		res.redirect('/posts');
 	}
 };

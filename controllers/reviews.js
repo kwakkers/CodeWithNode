@@ -14,13 +14,15 @@ module.exports = {
 		// save the post
 		post.save();
 		// redirect to the post
-		req.session.success = 'Review created successfully';
+		req.session.success = 'Review created successfully!';
 		res.redirect(`/posts/${post.id}`);
 	},
-
 	// Reviews Update
-	async reviewUpdate (req, res, next) {},
-
-	// Review Destroy
+	async reviewUpdate (req, res, next) {
+		await Review.findByIdAndUpdate(req.params.review_id, req.body.review);
+		req.session.success = 'Review updated successfully!';
+		res.redirect(`/posts/${req.params.id}`);
+	},
+	// Reviews Destroy
 	async reviewDestroy (req, res, next) {}
 };
