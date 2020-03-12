@@ -89,6 +89,11 @@ app.use(function (req, res, next) {
 		_id      : '5e69f1a53e97606d38332633',
 		username : 'les'
 	};
+
+	// req.user = {
+	// 	_id      : '5e6a6367bf98e756742076b1',
+	// 	username : 'jan'
+	// };
 	res.locals.currentUser = req.user;
 	// set default page title
 	res.locals.title = 'Surf Shop';

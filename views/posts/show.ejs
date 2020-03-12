@@ -37,6 +37,8 @@
 		<%= review.body %><br>
 		Rating: <%= review.rating %>
 	</div>
+	<% if(review.author.equals(currentUser._id)) { %>
+
 	<div>
 		<button class="toggle-edit-form">Edit</button>
 
@@ -47,5 +49,6 @@
 			<input type="submit" value="Update">
 		</form>
 	</div>
+	<% } %>
 	<hr>
 <% }); %>
