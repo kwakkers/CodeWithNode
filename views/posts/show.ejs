@@ -1,4 +1,5 @@
 <% layout('layouts/posts-show-layout') -%>
+
 <h1><%= post.title %></h1>
 <div>Price: <%=post.price %></div>
 <div>Description: <%=post.description %></div>
@@ -8,18 +9,33 @@
         <img src="<%= image.url %>" alt="Surf Board Image" width="200px">
     <% }) %>
 </div>
-
 <div id='map'></div>
-
 <div>
     <a href="/posts/<%= post.id %>/edit">
         <button>Edit Post</button>
     </a>
 </div>
-
 <div>
     <form action="/posts/<%= post.id %>?_method=DELETE" method="POST">
         <input type="submit" value="Delete">
     </form>
 </div>
+
+
+<h2>Create Review</h2>
+<form action="/posts/<%= post.id %>/reviews" method="POST">
+    <textarea name="review[body]" required></textarea>
+    <input type="number" name="review[rating]" min="1" max="5" step="1" required>
+
+    <input type="submit">
+</form>
+
+<h3>Reviews</h3>
+<% post.reviews.forEach(function(review){ %>
+    <div>
+        <%= review.body %>
+        Rating: <%= review.rating %>
+    </div>
+<% }) %>
+
 
