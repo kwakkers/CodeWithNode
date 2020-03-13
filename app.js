@@ -11,9 +11,9 @@ const User = require('./models/user');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const methodOverrride = require('method-override');
-//const seedPost = require('./seeds');
+// const seedPost = require('./seeds');
 
-//seedPost();
+// seedPost();
 
 // require routes
 const indexRouter = require('./routes/index');
@@ -92,6 +92,11 @@ app.use(function (req, res, next) {
 		_id      : '5e69f1a53e97606d38332633',
 		username : 'les'
 	};
+
+	// req.user = {
+	// 	_id      : '5e6b1e7ec868a07ff871358d',
+	// 	username : 'jim'
+	// };
 
 	// req.user = {
 	// 	_id      : '5e6a6367bf98e756742076b1',
