@@ -12,7 +12,7 @@
 
 </style>
 
-<ul>
+<ul id="navbar">
     <li><a href="/">Home</a></li>
     <li><a href="/posts">Posts</a></li>
     <% if(!currentUser) { %>
@@ -20,6 +20,7 @@
         <li><a href="/login">Login</a></li>
     <% } else { %>
         <li><a href="/posts/new">New Posts</a></li>
+        <li><a href="/profile">Profile</a></li>
         <li><a href="/logout">Logout</a></li>
         Welcome, <%= currentUser.username %>!
     <% } %>
