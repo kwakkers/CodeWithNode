@@ -11,8 +11,8 @@ const User = require('./models/user');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const methodOverrride = require('method-override');
+const favicon = require('favicon');
 // const seedPost = require('./seeds');
-
 // seedPost();
 
 // require routes
@@ -63,6 +63,7 @@ app.set('view engine', 'ejs');
 // setup public assets directory
 app.use(express.static('public'));
 
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -88,10 +89,10 @@ passport.deserializeUser(User.deserializeUser());
 
 // set local variable middleware
 app.use(function (req, res, next) {
-	req.user = {
-		_id      : '5e69f1a53e97606d38332633',
-		username : 'les'
-	};
+	// req.user = {
+	// 	_id      : '5e69f1a53e97606d38332633',
+	// 	username : 'les'
+	// };
 
 	// req.user = {
 	// 	_id      : '5e6b1e7ec868a07ff871358d',

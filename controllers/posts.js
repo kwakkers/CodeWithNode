@@ -46,6 +46,7 @@ module.exports = {
 			})
 			.send();
 		req.body.post.geometry = response.body.features[0].geometry;
+		req.body.post.author = req.user._id;
 		let post = new Post(req.body.post);
 		post.properties.description = `<strong><a href="/posts/${post._id}">${post.title}</a></strong><p>${post.location}</p><p>${post.description.substring(
 			0,
@@ -74,13 +75,18 @@ module.exports = {
 	},
 	// Posts Edit
 	async postEdit (req, res, next) {
-		let post = await Post.findById(req.params.id);
-		res.render('posts/edit', { post });
+		// due to change in index controller, setting the post to a local variable
+		// we can now use the following
+		res.render('posts/edit');
+		// instead of.....
+		//let post = await Post.findById(req.params.id);
+		//res.render('posts/edit', { post });
 	},
 	// Posts Update
 	async postUpdate (req, res, next) {
-		// find the post by id
-		let post = await Post.findById(req.params.id);
+		// destructure psot from res.locals
+		const { post } = res.locals;
+		//let post = await Post.findById(req.params.id);
 		// check if there's any images for deletion
 		if (req.body.deleteImages && req.body.deleteImages.length) {
 			// assign deleteImages from req.body to its own variable
@@ -136,7 +142,8 @@ module.exports = {
 	},
 	// Posts Destroy
 	async postDestroy (req, res, next) {
-		let post = await Post.findById(req.params.id);
+		//let post = await Post.findById(req.params.id);
+		const { post } = res.locals;
 		for (const image of post.images) {
 			await cloudinary.v2.uploader.destroy(image.public_id);
 		}
