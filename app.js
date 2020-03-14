@@ -4,7 +4,6 @@ const engine = require('ejs-mate');
 const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
 const passport = require('passport');
 const createError = require('http-errors');
 const User = require('./models/user');

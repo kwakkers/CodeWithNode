@@ -74,7 +74,7 @@ module.exports = {
 		res.render('posts/show', { post, mapBoxToken, floorRating });
 	},
 	// Posts Edit
-	async postEdit (req, res, next) {
+	postEdit (req, res, next) {
 		// due to change in index controller, setting the post to a local variable
 		// we can now use the following
 		res.render('posts/edit');
@@ -136,7 +136,7 @@ module.exports = {
 			20
 		)}...</p>`;
 		// save the updated post into the db
-		post.save();
+		await post.save();
 		// redirect to show page
 		res.redirect(`/posts/${post.id}`);
 	},
