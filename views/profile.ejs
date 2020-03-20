@@ -1,15 +1,17 @@
 <% layout('layouts/boilerplate') -%>
 
-<h1><img src="<%= currentUser.image.secure_url %>" alt="<%= currentUser.username %>'s profile Image" class="profile-image"><%= currentUser.username %>'s Profile</h1>
+<h1><img src="<%= currentUser.image.secure_url %>" alt="<%= currentUser.username %>'s profile image" class="profile-image"><%= currentUser.username %>'s Profile</h1>
 
-<p>Recent Posts</p>
+<p>Recent Posts:</p>
 
-<% posts.forEach(function(post){ %>
+<% posts.forEach(function(post) { %>
     <div>
         <a href="/posts/<%= post.id %>"><%= post.title %></a>
     </div>
-<% }) %>
-<p>Update Info</p>
+<% }); %>
+
+<p>Update Info:</p>
+
 <form action="/profile?_method=PUT" method="POST" enctype="multipart/form-data">
     <div>
         <label for="username">Username:</label>
@@ -17,11 +19,11 @@
     </div>
     <div>
         <label for="current-password">Current Password (required to update profile):</label>
-        <input type="password" id="current-password" name="currentPassword" placehodler="current password" required>
+        <input type="password" id="current-password" name="currentPassword" placeholder="current password" required>
     </div>
     <div>
         <label for="new-password">New Password:</label>
-        <input type="password"id="new-password" name="newPassword" placeholder="new password">
+        <input type="password" id="new-password" name="newPassword" placeholder="new password">
     </div>
     <div>
         <label for="password-confirmation">Password Confirmation:</label>
@@ -34,10 +36,9 @@
     </div>
     <div>
         <label for="image">Image:</label>
-        <small>(this deletes existing</small>
+        <small>(this deletes existing)</small>
         <input type="file" id="image" name="image">
     </div>
     <input type="submit" id="update-profile">
 </form>
-
 <script src="/javascripts/profile.js"></script>

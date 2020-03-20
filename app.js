@@ -9,7 +9,7 @@ const createError = require('http-errors');
 const User = require('./models/user');
 const session = require('express-session');
 const mongoose = require('mongoose');
-const methodOverrride = require('method-override');
+const methodOverride = require('method-override');
 const favicon = require('favicon');
 // const seedPost = require('./seeds');
 // seedPost();
@@ -62,13 +62,14 @@ app.set('view engine', 'ejs');
 // setup public assets directory
 app.use(express.static('public'));
 
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(methodOverrride('_method'));
+app.use(methodOverride('_method'));
 
 // Configure session then passport
 app.use(

@@ -7,13 +7,13 @@ const {
 	reviewDestroy
 } = require('../controllers/reviews');
 
-/* Post review create /posts/:id/reviews */
+/* review reviews create /posts/:id/reviews */
 router.post('/', asyncErrorHandler(reviewCreate));
 
-/* PUT review update  /posts/:id/reviews/review_id */
+/* PUT reviews update /posts/:id/reviews/:review_id */
 router.put('/:review_id', isReviewAuthor, asyncErrorHandler(reviewUpdate));
 
-/* DELETE review destroy /review/:review_id */
+/* DELETE reviews destroy /posts/:id/reviews/:review_id */
 router.delete('/:review_id', isReviewAuthor, asyncErrorHandler(reviewDestroy));
 
 module.exports = router;

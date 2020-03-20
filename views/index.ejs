@@ -5,7 +5,6 @@
 
 <script>
     mapboxgl.accessToken = "<%= mapBoxToken %>";
-    var posts = {features: <%- JSON.stringify(posts) %>};
+    var posts = { features: <%- JSON.stringify(posts) %> };
 </script>
 <script src="/javascripts/allPostsClusterMap.js"></script>
-

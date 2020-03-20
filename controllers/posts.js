@@ -1,24 +1,23 @@
 const Post = require('../models/post');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
-const geocodingClient = mbxGeocoding({
-	accessToken : mapBoxToken
-});
-
+const geocodingClient = mbxGeocoding({ accessToken: mapBoxToken });
 const { cloudinary } = require('../cloudinary');
 
 module.exports = {
 	// Posts Index
 	async postIndex (req, res, next) {
-		let posts = await Post.paginate(
-			{},
-			{
-				page : req.query.page || 1,
-				limt : 10,
-				sort : { _id: -1 }
-			}
-		);
+		const { dbQuery } = res.locals;
+		delete res.locals.dbQuery;
+		let posts = await Post.paginate(dbQuery, {
+			page  : req.query.page || 1,
+			limit : 10,
+			sort  : '-_id'
+		});
 		posts.page = Number(posts.page);
+		if (!posts.docs.length && res.locals.query) {
+			res.locals.error = 'No results match that query.';
+		}
 		res.render('posts/index', {
 			posts,
 			mapBoxToken,
@@ -33,7 +32,6 @@ module.exports = {
 	async postCreate (req, res, next) {
 		req.body.post.images = [];
 		for (const file of req.files) {
-			// let image = await cloudinary.v2.uploader.upload(file.path);
 			req.body.post.images.push({
 				url       : file.secure_url,
 				public_id : file.public_id
@@ -52,7 +50,7 @@ module.exports = {
 			0,
 			20
 		)}...</p>`;
-		await post.save();
+		post.save();
 		req.session.success = 'Post created successfully!';
 		res.redirect(`/posts/${post.id}`);
 	},
@@ -66,27 +64,18 @@ module.exports = {
 				model : 'User'
 			}
 		});
-		const floorRating = post.calculateAvgRating();
-
-		// this next line was missed
-		//let mapBoxToken = process.env.MAPBOX_TOKEN;
-		//console.log(mapBoxToken);
+		// const floorRating = post.calculateAvgRating();
+		const floorRating = post.avgRating;
 		res.render('posts/show', { post, mapBoxToken, floorRating });
 	},
 	// Posts Edit
 	postEdit (req, res, next) {
-		// due to change in index controller, setting the post to a local variable
-		// we can now use the following
 		res.render('posts/edit');
-		// instead of.....
-		//let post = await Post.findById(req.params.id);
-		//res.render('posts/edit', { post });
 	},
 	// Posts Update
 	async postUpdate (req, res, next) {
-		// destructure psot from res.locals
+		// destructure post from res.locals
 		const { post } = res.locals;
-		//let post = await Post.findById(req.params.id);
 		// check if there's any images for deletion
 		if (req.body.deleteImages && req.body.deleteImages.length) {
 			// assign deleteImages from req.body to its own variable
@@ -108,7 +97,6 @@ module.exports = {
 		if (req.files) {
 			// upload images
 			for (const file of req.files) {
-				// let image = await cloudinary.v2.uploader.upload(file.path);
 				// add images to post.images array
 				post.images.push({
 					url       : file.secure_url,
@@ -142,13 +130,12 @@ module.exports = {
 	},
 	// Posts Destroy
 	async postDestroy (req, res, next) {
-		//let post = await Post.findById(req.params.id);
 		const { post } = res.locals;
 		for (const image of post.images) {
 			await cloudinary.v2.uploader.destroy(image.public_id);
 		}
 		await post.remove();
-		req.session.success = 'Post deleted successfully';
+		req.session.success = 'Post deleted successfully!';
 		res.redirect('/posts');
 	}
 };

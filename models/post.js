@@ -36,7 +36,6 @@ const PostSchema = new Schema({
 	avgRating   : { type: Number, default: 0 }
 });
 
-// this removes any reviews when the when the post delete is called
 PostSchema.pre('remove', async function () {
 	await Review.remove({
 		_id : {
@@ -56,12 +55,13 @@ PostSchema.methods.calculateAvgRating = function () {
 	} else {
 		this.avgRating = ratingsTotal;
 	}
-
 	const floorRating = Math.floor(this.avgRating);
 	this.save();
 	return floorRating;
 };
 
 PostSchema.plugin(mongoosePaginate);
+
+PostSchema.index({ geometry: '2dsphere' });
 
 module.exports = mongoose.model('Post', PostSchema);

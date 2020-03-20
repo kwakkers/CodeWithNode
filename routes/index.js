@@ -3,7 +3,6 @@ const router = express.Router();
 const multer = require('multer');
 const { storage } = require('../cloudinary');
 const upload = multer({ storage });
-
 const {
 	landingPage,
 	getRegister,
@@ -28,26 +27,26 @@ const {
 /* GET home/landing page. */
 router.get('/', asyncErrorHandler(landingPage));
 
-/* GET /register. */
+/* GET /register */
 router.get('/register', getRegister);
 
-/* POST /register. */
+/* POST /register */
 router.post(
 	'/register',
 	upload.single('image'),
 	asyncErrorHandler(postRegister)
 );
 
-/* GET /login. */
+/* GET /login */
 router.get('/login', getLogin);
 
-/* POST /login. */
+/* POST /login */
 router.post('/login', asyncErrorHandler(postLogin));
 
 /* GET /logout */
 router.get('/logout', getLogout);
 
-/* GET /profile. */
+/* GET /profile */
 router.get('/profile', isLoggedIn, asyncErrorHandler(getProfile));
 
 /* PUT /profile */
@@ -60,16 +59,16 @@ router.put(
 	asyncErrorHandler(updateProfile)
 );
 
-/* GET /forgot-password. */
+/* GET /forgot */
 router.get('/forgot-password', getForgotPw);
 
-/* PUT /forgot. */
+/* PUT /forgot */
 router.put('/forgot-password', asyncErrorHandler(putForgotPw));
 
 /* GET /reset/:token */
 router.get('/reset/:token', asyncErrorHandler(getReset));
 
-/* PUT /reset/:token. */
+/* PUT /reset/:token */
 router.put('/reset/:token', asyncErrorHandler(putReset));
 
 module.exports = router;
