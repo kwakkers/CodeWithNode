@@ -99,7 +99,7 @@ map.on('load', function () {
 	// inspect a cluster on click
 	map.on('click', 'clusters', function (e) {
 		var features = map.queryRenderedFeatures(e.point, {
-			layers: [ 'clusters' ]
+			layers : [ 'clusters' ]
 		});
 		var clusterId = features[0].properties.cluster_id;
 		map
@@ -125,3 +125,8 @@ map.on('load', function () {
 	map.on('mouseenter', 'unclustered-point', mouseenterCursor);
 	map.on('mouseleave', 'unclustered-point', mouseLeaveCursor);
 });
+
+// Disable zoom from mouse scroll wheet
+map.scrollZoom.disable();
+// add zoom and rotation controls to the map
+map.addControl(new mapboxgl.NavigationControl());
