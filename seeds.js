@@ -27,7 +27,7 @@ async function seedPosts () {
 			images      : [
 				{
 					url :
-						'https://res/cloudinary.com/devsprout/image/upload/v1561315599/surf-shop/surfboard.jpg'
+						'https://res.cloudinary.com/dujmpqtlf/image/upload/v1585731457/surf-shop/surfboard_jw18jo.jpg'
 				}
 			]
 		};
